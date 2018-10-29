@@ -2,7 +2,7 @@ import math
 import torch
 from torch import nn
 import torch.nn.functional as F
-
+from unet_model import UNet
 
 
 class PDNet(nn.Module):
@@ -16,7 +16,7 @@ class PDNet(nn.Module):
             nn.Conv2d(in_channels=channels, out_channels=features, kernel_size=kernel_size, stride=1, padding=padding, bias=False),
             nn.LeakyReLU(0.2, inplace=True)
         )
-        self.block2 = convBlock()
+        self.block2 = UNet() #convBlock()
         self.block3 = nn.Conv2d(in_channels=features, out_channels=channels, kernel_size=kernel_size, stride=1, padding=padding, bias=False)
       
         for m in self.modules():

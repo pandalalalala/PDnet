@@ -20,11 +20,11 @@ parser.add_argument("--features", type=int, default=64, help="Number of features
 parser.add_argument("--branches", type=int, default=2, help="Number of total layers")
 parser.add_argument("--logdir", type=str, default="logs", help='path of log files')
 parser.add_argument("--net", type=str, default="net.pth", help='path of log files')
-parser.add_argument("--dataPath", type=str, default="datasets", help='path of testing files')
+parser.add_argument("--dataPath", type=str, default="OASIS1700", help='path of testing files')
 parser.add_argument("--output", type=str, default="out_from_test", help='path of log files')
 #parser.add_argument("--start_index", type=int, default=0, help="starting index of testing samples")
 parser.add_argument("--mode", type=str, default="pure_denoise", help='Super-resolution (S) or denoise training (N)')
-parser.add_argument("--noiseLevel", type=int, default=12, help='added noise level')
+parser.add_argument("--noiseLevel", type=int, default=15, help='added noise level')
 parser.add_argument('--sweep', action="store_true", help='sweep across model trained in different epochs?')
 parser.add_argument("--epochs", type=int, default=20, help="Number of training epochs")
 
@@ -48,11 +48,11 @@ def main():
             writer = csv.writer(output, lineterminator='\n')
             for epoch in range(len(epochs)):
                 model.load_state_dict(torch.load(os.path.join(opt.logdir, "net%d.pth"%epoch)))
-                psnrPredict = val(model, ''.join(opt.dataPath, '/test'), 0, noiseLevel=opt.noiseLevel, mode=opt.mode)
+                psnrPredict = val(model, ''.join([opt.dataPath, '/test']), 0, noiseLevel=opt.noiseLevel, mode=opt.mode)
                 writer.writerow([psnrPredict])
     else:
         model.load_state_dict(torch.load(os.path.join(opt.logdir, opt.net)))
-        val(model, ''.join(opt.dataPath, '/test'), 0, noiseLevel=opt.noiseLevel, mode=opt.mode, ifInhomogeneous=False)
+        val(model, ''.join([opt.dataPath, '/test']), 0, noiseLevel=opt.noiseLevel, mode=opt.mode, ifInhomogeneous=False)
     
 if __name__ == "__main__":
     main()

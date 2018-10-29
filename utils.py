@@ -27,7 +27,7 @@ def val(model, dataPath, epoch, noiseLevel=12, mode='pure_denoise', ifInhomogene
     model.eval()
 
     # load data info
-    print('Loading data info ...\n')
+    print('Evaluating ...\n')
     imageFiles = completePathImportFile(dataPath)
 
     # process data
